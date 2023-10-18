@@ -9,10 +9,12 @@ const noteSchema = new Schema(
       unique: true
     },
     description: {
-      type: String
+      type: String,
+      default: ''
     },
     tags: {
-      type: Array
+      type: Array,
+      default: []
     },
     user: {
       type: Schema.Types.ObjectId,

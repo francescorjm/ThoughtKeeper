@@ -5,7 +5,8 @@ const collectionSchema = new Schema(
     title: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
+      default: 'Uncategorized'
     },
     user: {
       type: Schema.Types.ObjectId,
