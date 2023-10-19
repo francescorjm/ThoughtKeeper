@@ -3,7 +3,13 @@ import { app, server } from '../index';
 
 const api: SuperTest<supertest.Test> = supertest(app);
 
-describe('Register', () => {
+describe('Register endpoint', () => {
+  it('should receive user info as json', async () => {
+    await api
+      .post('/api/auth/register')
+      .expect('Content-Type', /application\/json/);
+  });
+
   it('should return user info as json', async () => {
     await api
       .post('/api/auth/register')
@@ -12,7 +18,13 @@ describe('Register', () => {
   });
 });
 
-describe('Login', () => {
+describe('Login endpoint', () => {
+  it('should receive user info as json', async () => {
+    await api
+      .post('/api/auth/register')
+      .expect('Content-Type', /application\/json/);
+  });
+
   it('should return user info as json', async () => {
     await api
       .post('/api/auth/login')
