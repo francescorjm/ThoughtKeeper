@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-const collectionSchema = new Schema(
+const collectionsSchema = new Schema(
   {
     title: {
       type: String,
@@ -10,12 +10,12 @@ const collectionSchema = new Schema(
     },
     user: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'Users',
       required: true
     }
   },
   { timestamps: true }
 );
 
-const Collection = mongoose.model('Collection', collectionSchema);
+const Collection = mongoose.model('Collections', collectionsSchema);
 export default Collection;

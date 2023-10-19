@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-const noteSchema = new Schema(
+const notesSchema = new Schema(
   {
     title: {
       type: String,
@@ -19,16 +19,16 @@ const noteSchema = new Schema(
     user: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: 'User'
+      ref: 'Users'
     },
     collection: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: 'Collection'
+      ref: 'Collections'
     }
   },
   { timestamps: true }
 );
 
-const Note = mongoose.model('Note', noteSchema);
+const Note = mongoose.model('Notes', notesSchema);
 export default Note;
