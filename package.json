@@ -7,8 +7,7 @@
     "start": "cross-env NODE_ENV=production node build/index.js",
     "dev": "cross-env NODE_ENV=development -node-dev -r tsconfig-paths/register --respawn --ignore-watch node_modules src/index.ts",
     "build": "babel src --extensions \".ts,.js\" --out-dir build --copy-files",
-    "prepare": "husky install",
-    "test": "cross-env NODE_ENV=test"
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
