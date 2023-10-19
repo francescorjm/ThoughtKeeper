@@ -1,5 +1,8 @@
 {
     "conventionalCommits.scopes": [
-        "users"
+        "users",
+        "collections",
+        "notes",
+        "models"
     ]
 }
