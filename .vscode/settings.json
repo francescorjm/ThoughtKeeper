@@ -4,6 +4,7 @@
         "collections",
         "notes",
         "models",
-        "db"
+        "db",
+        "auth"
     ]
 }
