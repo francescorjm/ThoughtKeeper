@@ -1,7 +1,23 @@
 import supertest, { type SuperTest } from 'supertest';
 import { app, server } from '../index';
+// import type User from '../@types/User';
 
 const api: SuperTest<supertest.Test> = supertest(app);
+
+// const initialUsers: User[] = [
+//   {
+//     username: 'Vanilthas',
+//     firstname: 'Daniel',
+//     lastname: 'Leon',
+//     password: 'LogicalThoughts199'
+//   },
+//   {
+//     username: 'LadronDeOxigeno',
+//     firstname: 'Carlos',
+//     lastname: 'Portillo',
+//     password: 'LogicalThoughts198'
+//   }
+// ];
 
 describe('Register endpoint', () => {
   it('should receive user info as json', async () => {
