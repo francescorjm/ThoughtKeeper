@@ -1,8 +1,8 @@
-interface User {
+interface IUser {
   username: string;
   firstname: string;
   lastname: string;
   password: string;
 }
 
-export default User;
+export default IUser;
