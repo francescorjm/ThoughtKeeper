@@ -3,6 +3,7 @@
         "users",
         "collections",
         "notes",
-        "models"
+        "models",
+        "db"
     ]
 }
