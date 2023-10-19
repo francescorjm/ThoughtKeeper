@@ -1,5 +1,5 @@
 import request from 'supertest';
-import app from '../server';
+import { app, server } from '../index';
 
 describe('Testing if this shit works', () => {
   it('should return a "qlq" message', async () => {
@@ -7,4 +7,8 @@ describe('Testing if this shit works', () => {
     expect(response.status).toBe(200);
     expect(response.text).toBe('qlq');
   });
+});
+
+afterAll(() => {
+  server.close();
 });
