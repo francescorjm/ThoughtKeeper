@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node build/index.js",
-    "dev": "cross-env NODE_ENV=development -node-dev -r tsconfig-paths/register --respawn --ignore-watch node_modules src/index.ts",
+    "dev": "cross-env NODE_ENV=development ts-node-dev -r tsconfig-paths/register --respawn --ignore-watch node_modules src/index.ts",
+    "test": "cross-env NODE_ENV=test jest --verbose",
     "build": "babel src --extensions \".ts,.js\" --out-dir build --copy-files",
     "prepare": "husky install"
   },
