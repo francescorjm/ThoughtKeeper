@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import { app, server } from '../index';
 import { type IUser, type UserLogin, type UserRegister } from 'src/@types/User';
 import User from '@models/users.model';
+import mongoose from 'mongoose';
 
 const api: SuperTest<supertest.Test> = supertest(app);
 
@@ -135,6 +136,7 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 
-afterAll(() => {
+afterAll(async () => {
   server.close();
+  await mongoose.connection.close();
 });

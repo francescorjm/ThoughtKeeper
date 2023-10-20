@@ -22,7 +22,7 @@ export const signUp = async (
   const user = new User(value);
   await user.save();
 
-  return res.status(201).json({ msg: 'It just works :v', user });
+  return res.status(201).json({ msg: 'User Created!', user });
 };
 
 export const signIn = async (_: Request, res: Response): Promise<Response> => {
