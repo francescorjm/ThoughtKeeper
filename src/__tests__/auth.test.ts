@@ -5,21 +5,6 @@ import { type UserLogin, type UserRegister } from 'src/@types/User';
 
 const api: SuperTest<supertest.Test> = supertest(app);
 
-// const initialUsers: User[] = [
-//   {
-//     username: 'Vanilthas',
-//     firstname: 'Daniel',
-//     lastname: 'Leon',
-//     password: 'LogicalThoughts199'
-//   },
-//   {
-//     username: 'LadronDeOxigeno',
-//     firstname: 'Carlos',
-//     lastname: 'Portillo',
-//     password: 'LogicalThoughts198'
-//   }
-// ];
-
 describe('Register endpoint', () => {
   const newUser: UserRegister = {
     username: 'donatobm',
@@ -33,6 +18,7 @@ describe('Register endpoint', () => {
       .post('/api/auth/register')
       .set('Content-Type', 'application/json')
       .send(newUser)
+      .expect(201)
       .expect('Content-Type', /application\/json/);
   });
 
@@ -43,6 +29,10 @@ describe('Register endpoint', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/);
   });
+
+  it('should add a user to database if input is of type UserRegister', async () => {});
+
+  it('should not add something to database if input is not of type UserRegister', async () => {});
 });
 
 describe('Login endpoint', () => {
