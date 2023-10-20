@@ -1,43 +1,41 @@
 import supertest, { type SuperTest } from 'supertest';
 
 import { app, server } from '../index';
-import {
-  /* type IUser , */ type UserLogin,
-  type UserRegister
-} from 'src/@types/User';
+import { type IUser, type UserLogin, type UserRegister } from 'src/@types/User';
+import User from '@models/users.model';
 // import User from '@models/users.model';
 
 const api: SuperTest<supertest.Test> = supertest(app);
 
-// const initialUsers: IUser[] = [
-//   {
-//     username: 'Juanito123',
-//     firstname: 'Juan',
-//     lastname: 'Nito',
-//     password: 'juanitooooooo123'
-//   },
-//   {
-//     username: 'Rafaelito',
-//     firstname: 'Rafa',
-//     lastname: 'Lito',
-//     password: 'rafalitooooooo123'
-//   }
-// ];
+const initialUsers: IUser[] = [
+  {
+    user_name: 'Juanito123',
+    first_name: 'Juan',
+    last_name: 'Nito',
+    password: 'juanitooooooo123'
+  },
+  {
+    user_name: 'Rafaelito',
+    first_name: 'Rafa',
+    last_name: 'Lito',
+    password: 'rafalitooooooo123'
+  }
+];
 
-// beforeEach(async () => {
-//   await User.deleteMany({});
+beforeEach(async () => {
+  await User.deleteMany({});
 
-//   for (const user of initialUsers) {
-//     const userObj = new User(user);
-//     await userObj.save();
-//   }
-// });
+  for (const user of initialUsers) {
+    const userObj = new User(user);
+    await userObj.save();
+  }
+});
 
 describe('Register endpoint', () => {
   const newUser: UserRegister = {
-    username: 'donatobm',
-    firstname: 'Donato',
-    lastname: 'Bevilacqua',
+    user_name: 'donatobm',
+    first_name: 'Donato',
+    last_name: 'Bevilacqua',
     password: 'aeiou11111'
   };
 
@@ -65,10 +63,14 @@ describe('Register endpoint', () => {
       .send(newUser)
       .expect(201);
 
-    // const response = await api.get('/api/users');
+    const users = await User.find({});
 
-    // expect(response.body).toHaveLength(initialUsers.length + 1);
-    // expect(response.body).toContain(newUser);
+    expect(users).toHaveLength(initialUsers.length + 1);
+
+    const addedUser = users.find(
+      (user) => user.user_name === newUser.user_name
+    );
+    expect(addedUser).toBeDefined();
   });
 
   it('should not add something to database if input is not of type UserRegister', async () => {
@@ -80,18 +82,18 @@ describe('Register endpoint', () => {
     expect(response.status).toBe(400);
     expect(response.body).toEqual({ msg: 'Invalid User Data' });
 
-    // response = await api.get('/api/users');
+    const users = await User.find({});
 
-    // expect(response.body).toHaveLength(initialUsers.length);
-    // for (const user of initialUsers) {
-    //   expect(response.body).toContain(user);
-    // }
+    expect(users).toHaveLength(initialUsers.length);
+    for (const user of initialUsers) {
+      expect(users).toContain(user);
+    }
   });
 });
 
 describe.skip('Login endpoint', () => {
   const user: UserLogin = {
-    username: 'donatobm',
+    user_name: 'donatobm',
     password: 'aeiou11111'
   };
 

@@ -1,9 +1,9 @@
 export interface IUser {
-  username: string;
-  firstname: string;
-  lastname: string;
+  user_name: string;
+  first_name: string;
+  last_name: string;
   password: string;
 }
 
 export type UserRegister = IUser;
-export type UserLogin = Omit<IUser, 'firstname' | 'lastname'>;
+export type UserLogin = Omit<IUser, 'first_name' | 'last_name'>;

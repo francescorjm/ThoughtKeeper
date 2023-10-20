@@ -3,9 +3,9 @@ import joi from 'joi';
 import { type UserRegister } from 'src/@types/User';
 
 const schema = joi.object({
-  username: joi.string().required(),
-  firstname: joi.string().required(),
-  lastname: joi.string().required(),
+  user_name: joi.string().required(),
+  first_name: joi.string().required(),
+  last_name: joi.string().required(),
   password: joi.string().required()
 });
 
