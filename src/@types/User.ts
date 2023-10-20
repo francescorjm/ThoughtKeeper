@@ -5,4 +5,5 @@ interface IUser {
   password: string;
 }
 
-export default IUser;
+export type UserRegister = IUser;
+export type UserLogin = Omit<IUser, 'firstname' | 'lastname'>;
