@@ -1,6 +1,6 @@
+import User from '@models/users.model';
 import { type Request, type Response } from 'express';
 import joi from 'joi';
-import { type UserRegister } from 'src/@types/User';
 
 const schema = joi.object({
   user_name: joi.string().required(),
@@ -19,7 +19,8 @@ export const signUp = async (
     return res.status(400).json({ msg: 'Invalid User Data' });
   }
 
-  const user: UserRegister = value;
+  const user = new User(value);
+  await user.save();
 
   return res.status(201).json({ msg: 'It just works :v', user });
 };
