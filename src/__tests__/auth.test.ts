@@ -55,9 +55,32 @@ describe('Register endpoint', () => {
       .expect('Content-Type', /application\/json/);
   });
 
-  it('should add a user to database if input is of type UserRegister', async () => {});
+  it('should add a user to database if input is of type UserRegister', async () => {
+    await api
+      .post('/api/auth/register')
+      .set('Content-Type', 'application/json')
+      .send(newUser);
 
-  it('should not add something to database if input is not of type UserRegister', async () => {});
+    const response = await api.get('/api/users');
+
+    expect(response.body).toHaveLength(initialUsers.length + 1);
+    expect(response.body).toContain(newUser);
+  });
+
+  it('should not add something to database if input is not of type UserRegister', async () => {
+    await api
+      .post('/api/auth/register')
+      .set('Content-Type', 'application/json')
+      .send({})
+      .expect(400);
+
+    const response = await api.get('/api/users');
+
+    expect(response.body).toHaveLength(initialUsers.length);
+    for (const user of initialUsers) {
+      expect(response.body).toContain(user);
+    }
+  });
 });
 
 describe('Login endpoint', () => {
