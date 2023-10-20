@@ -1,7 +1,27 @@
 import { type Request, type Response } from 'express';
+import joi from 'joi';
+import { type UserRegister } from 'src/@types/User';
 
-export const signUp = async (_: Request, res: Response): Promise<Response> => {
-  return res.json({ msg: 'qlo' });
+const schema = joi.object({
+  username: joi.string().required(),
+  firstname: joi.string().required(),
+  lastname: joi.string().required(),
+  password: joi.string().required()
+});
+
+export const signUp = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const { error, value } = schema.validate(req.body);
+
+  if (error != null) {
+    return res.status(400).json({ msg: 'Invalid User Data' });
+  }
+
+  const user: UserRegister = value;
+
+  return res.status(201).json({ msg: 'It just works :v', user });
 };
 
 export const signIn = async (_: Request, res: Response): Promise<Response> => {
