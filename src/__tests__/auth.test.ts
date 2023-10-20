@@ -82,12 +82,14 @@ describe('Register endpoint', () => {
     expect(response.status).toBe(400);
     expect(response.body).toEqual({ msg: 'Invalid User Data' });
 
-    const users = await User.find({});
+    const users = await User.find({}).select('-_id');
 
     expect(users).toHaveLength(initialUsers.length);
-    for (const user of initialUsers) {
-      expect(users).toContain(user);
-    }
+    expect(users).toEqual(
+      expect.arrayContaining(
+        initialUsers.map((user) => expect.objectContaining(user))
+      )
+    );
   });
 });
 
