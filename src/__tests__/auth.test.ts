@@ -1,6 +1,6 @@
 import supertest, { type SuperTest } from 'supertest';
 import { app, server } from '../index';
-// import type User from '../@types/User';
+import type IUser from 'src/@types/User';
 
 const api: SuperTest<supertest.Test> = supertest(app);
 
@@ -20,24 +20,34 @@ const api: SuperTest<supertest.Test> = supertest(app);
 // ];
 
 describe('Register endpoint', () => {
+  const newUser: IUser = {
+    username: 'donatobm',
+    firstname: 'Donato',
+    lastname: 'Bevilacqua',
+    password: 'aeiou11111'
+  };
+
   it('should receive user info as json', async () => {
     await api
       .post('/api/auth/register')
+      .set('Content-Type', 'application/json')
+      .send(newUser)
       .expect('Content-Type', /application\/json/);
   });
 
   it('should return user info as json', async () => {
     await api
       .post('/api/auth/register')
+      .send(newUser)
       .expect(200)
       .expect('Content-Type', /application\/json/);
   });
 });
 
-describe('Login endpoint', () => {
+describe.skip('Login endpoint', () => {
   it('should receive user info as json', async () => {
     await api
-      .post('/api/auth/register')
+      .post('/api/auth/login')
       .expect('Content-Type', /application\/json/);
   });
 

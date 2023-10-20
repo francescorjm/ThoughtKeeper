@@ -1,7 +1,9 @@
-import express, { type Response, type Application } from 'express';
+import express, { type Application } from 'express';
 import cors from 'cors';
 import { config } from 'dotenv';
+
 import '@config/db';
+import authRoutes from '@routes/auth.routes';
 
 const app: Application = express();
 
@@ -12,8 +14,6 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.use('/', (_, res: Response) => {
-  res.send('qlq');
-});
+app.use('/api/auth', authRoutes);
 
 export default app;
