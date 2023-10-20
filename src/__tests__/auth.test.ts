@@ -1,9 +1,34 @@
 import supertest, { type SuperTest } from 'supertest';
 
 import { app, server } from '../index';
-import { type UserLogin, type UserRegister } from 'src/@types/User';
+import { type IUser, type UserLogin, type UserRegister } from 'src/@types/User';
+import User from '@models/users.model';
 
 const api: SuperTest<supertest.Test> = supertest(app);
+
+const initialUsers: IUser[] = [
+  {
+    username: 'Juanito123',
+    firstname: 'Juan',
+    lastname: 'Nito',
+    password: 'juanitooooooo123'
+  },
+  {
+    username: 'Rafaelito',
+    firstname: 'Rafa',
+    lastname: 'Lito',
+    password: 'rafalitooooooo123'
+  }
+];
+
+beforeEach(async () => {
+  await User.deleteMany({});
+
+  for (const user of initialUsers) {
+    const userObj = new User(user);
+    await userObj.save();
+  }
+});
 
 describe('Register endpoint', () => {
   const newUser: UserRegister = {
