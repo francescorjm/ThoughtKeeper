@@ -1,11 +1,13 @@
 import supertest, { type SuperTest } from 'supertest';
+import bcrypt from 'bcrypt';
 
 import { app, server } from '../index';
 import { type IUser, type UserLogin, type UserRegister } from 'src/@types/User';
 import User from '@models/users.model';
-// import User from '@models/users.model';
 
 const api: SuperTest<supertest.Test> = supertest(app);
+
+jest.mock('bcrypt');
 
 const initialUsers: IUser[] = [
   {
@@ -29,6 +31,7 @@ beforeEach(async () => {
     const userObj = new User(user);
     await userObj.save();
   }
+  jest.clearAllMocks();
 });
 
 describe('Register endpoint', () => {
@@ -57,6 +60,8 @@ describe('Register endpoint', () => {
   });
 
   it('should add a user to database if input is of type UserRegister', async () => {
+    (bcrypt.hash as jest.Mock).mockResolvedValue('hashedPassword');
+
     await api
       .post('/api/auth/register')
       .set('Content-Type', 'application/json')
@@ -70,7 +75,9 @@ describe('Register endpoint', () => {
     const addedUser = users.find(
       (user) => user.user_name === newUser.user_name
     );
+
     expect(addedUser).toBeDefined();
+    expect(bcrypt.hash).toHaveBeenCalledTimes(1);
   });
 
   it('should not add something to database if input is not of type UserRegister', async () => {
@@ -82,12 +89,20 @@ describe('Register endpoint', () => {
     expect(response.status).toBe(400);
     expect(response.body).toEqual({ msg: 'Invalid User Data' });
 
-    const users = await User.find({}).select('-_id');
+    const users = await User.find({}).select('-_id -password');
+    const copyInitialUsers: Array<{
+      user_name: string;
+      first_name: string;
+      last_name: string;
+    }> = initialUsers.map((user) => {
+      const { password, ...data } = user;
+      return data;
+    });
 
     expect(users).toHaveLength(initialUsers.length);
     expect(users).toEqual(
       expect.arrayContaining(
-        initialUsers.map((user) => expect.objectContaining(user))
+        copyInitialUsers.map((user) => expect.objectContaining(user))
       )
     );
   });
@@ -114,6 +129,10 @@ describe.skip('Login endpoint', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/);
   });
+});
+
+afterEach(() => {
+  jest.clearAllMocks();
 });
 
 afterAll(() => {
