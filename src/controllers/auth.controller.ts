@@ -19,10 +19,16 @@ export const signUp = async (
     return res.status(400).json({ msg: 'Invalid User Data' });
   }
 
-  const user = new User(value);
-  await user.save();
+  const user = await User.findOne({ user_name: value.user_name });
+  console.log(user);
+  if (user !== null) {
+    return res.status(400).json({ msg: 'This user already exists' });
+  }
 
-  return res.status(201).json({ msg: 'User Created!', user });
+  const newUser = new User(value);
+  await newUser.save();
+
+  return res.status(201).json({ msg: 'User Created!', user: newUser });
 };
 
 export const signIn = async (_: Request, res: Response): Promise<Response> => {
