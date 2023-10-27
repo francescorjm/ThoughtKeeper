@@ -107,6 +107,28 @@ describe('Register endpoint', () => {
       )
     );
   });
+
+  it('should not add something to database if user_name already exists', async () => {
+    const newUser: IUser = {
+      user_name: 'Juanito123',
+      first_name: 'Juan',
+      last_name: 'Nito',
+      password: 'juanitooooooo123'
+    };
+
+    const response = await api
+      .post('/api/auth/register')
+      .set('Content-Type', 'application/json')
+      .send(newUser);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({ msg: 'This user already exists' });
+
+    const users: IUser[] = await User.find({ user_name: newUser.user_name });
+    const userNames: string[] = users.map((user) => user.user_name);
+
+    expect(userNames).toHaveLength(1);
+  });
 });
 
 describe.skip('Login endpoint', () => {
